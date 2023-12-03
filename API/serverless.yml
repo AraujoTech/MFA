@@ -1,0 +1,28 @@
+service: mfa
+frameworkVersion: '3'
+org: araujotech
+app: mfa-api
+useDotenv: true
+provider:
+  name: aws
+  runtime: python3.9
+  profile: stackhouseit
+  environment:
+    GITHUB_SECRET: ${env:GITHUB_SECRET}
+    AWS_SECRET: ${env:AWS_SECRET}
+    AWS_ROOT_SECRET: ${env:AWS_ROOT_SECRET}
+# plugins:
+
+# custom:
+
+functions:
+  generateMFA:
+    handler: handler.generate_mfa
+    events:
+      - http:
+          path: generate-mfa
+          method: get
+          request:
+            parameters:
+              querystrings:
+                service_name: true
